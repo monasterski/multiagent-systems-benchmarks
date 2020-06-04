@@ -1,10 +1,14 @@
 package capacity;
 
+import capacity.agent.SimpleAgent;
 import lombok.extern.slf4j.Slf4j;
+import madkit.action.KernelAction;
 import madkit.kernel.Madkit;
 
 import java.math.BigInteger;
 import java.util.logging.Level;
+
+import static java.lang.Thread.sleep;
 
 @Slf4j
 public class AgentManager {
@@ -12,17 +16,27 @@ public class AgentManager {
     public static BigInteger totalNumberOfAgents = BigInteger.ONE;
 
     public static void main(String... args) {
-
+        Madkit md = null;
+        try {
+            md = new Madkit(Madkit.LevelOption.madkitLogLevel.toString(), Level.OFF.toString(), "--launchAgents", "capacity.agent.SimpleAgent,false");
+        } catch (Exception e) {
+            log.info("Total number of agents: {}", totalNumberOfAgents);
+            e.printStackTrace();
+        }
         for (BigInteger i = BigInteger.ONE; ; i = i.add(BigInteger.ONE)) {
             try {
-                new Madkit(Madkit.LevelOption.madkitLogLevel.toString(), Level.OFF.toString(), "--launchAgents", "capacity.agent.SimpleAgent,false");
+                md.doAction(KernelAction.LAUNCH_AGENT, SimpleAgent.class.getName());
+
                 totalNumberOfAgents = totalNumberOfAgents.add(BigInteger.ONE);
+
                 if ((totalNumberOfAgents.mod(new BigInteger("100")).equals(BigInteger.ZERO))) {
                     log.info("Total number of agents: {}", totalNumberOfAgents);
                 }
+                sleep(1);
             } catch (Exception e) {
                 log.info("Total number of agents: {}", totalNumberOfAgents);
                 e.printStackTrace();
+                break;
             }
         }
     }

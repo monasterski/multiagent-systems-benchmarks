@@ -9,13 +9,15 @@ public class SimpleAgent extends Agent {
     @Override
     protected void activate() {
         // inicjalizacja agenta
-//        log.info("[CREATE] agent name: {}", getName());
+        if (hashCode() % 100 == 0)
+            log.info("[CREATE] agent name: {}", getName());
     }
 
 
     @Override
     protected void live() {
-        while (true) ;
+        while (true)
+            pause(10000);
     }
 
     @Override
