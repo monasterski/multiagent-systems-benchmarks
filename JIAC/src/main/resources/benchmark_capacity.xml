@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/AgentNode.xml"/>
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/Agent.xml"/>
+
+    <bean name="CapacityNode" parent="NodeWithDirectory"/>
+
+    <bean name="CapacityAgent" parent="SimpleAgent" scope="prototype">
+        <property name="agentBeans">
+            <list>
+                <ref bean="CapacityBean"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="CapacityBean" class="benchmarks.capacity.agents.CapacityBean" scope="prototype">
+        <property name="executionInterval" value="5000"/>
+        <property name="logLevel" value="INFO"/>
+    </bean>
+</beans>
