@@ -21,7 +21,7 @@ public class AgentManager {
         }
 
         System.out.println("Created all agents, sleeping...");
-        Thread.sleep(5000);
+        Thread.sleep(BenchmarkSettings.SLEEP_LENGTH_IN_SECONDS * 1000);
         System.out.println("Sleep over, shutting down...");
 
         saveBenchmarkResult();
