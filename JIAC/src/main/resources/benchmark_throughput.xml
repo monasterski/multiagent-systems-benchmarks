@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/AgentNode.xml"/>
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/Agent.xml"/>
+    
+    <bean name="ThroughputNode" parent="NodeWithDirectory">
+        <property name="agents">
+            <list>
+                <ref bean="ThroughputSenderAgent"/>
+                <ref bean="ThroughputReceiverAgent"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean name="ThroughputSenderAgent" parent="SimpleAgent" scope="prototype">
+        <property name="agentBeans">
+            <list>
+                <ref bean="ThroughputSenderBean"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="ThroughputReceiverAgent" parent="SimpleAgent" scope="prototype">
+        <property name="agentBeans">
+            <list>
+                <ref bean="ThroughputReceiverBean"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean name="ThroughputSenderBean" class="benchmarks.throughput.agents.ThroughputSenderBean" scope="prototype">
+        <property name="executionInterval" value="1000"/>
+        <property name="logLevel" value="INFO"/>
+    </bean>
+
+    <bean name="ThroughputReceiverBean" class="benchmarks.throughput.agents.ThroughputReceiverBean" scope="prototype">
+        <property name="logLevel" value="INFO"/>
+    </bean>
+</beans>

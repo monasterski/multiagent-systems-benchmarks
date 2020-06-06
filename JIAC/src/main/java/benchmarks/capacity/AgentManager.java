@@ -24,7 +24,6 @@ public class AgentManager {
         Thread.sleep(5000);
         System.out.println("Sleep over, shutting down...");
 
-        // output benchmark result
         saveBenchmarkResult();
 
         agentNode.shutdown();
