@@ -72,7 +72,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        pl.edu.agh.benchmarks.capacity.AgentManager
+                                        pl.edu.agh.benchmarks.capacity.AgentManagerCapacity
                                     </mainClass>
                                 </manifest>
                             </archive>
