@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/AgentNode.xml"/>
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/Agent.xml"/>
+
+    <bean name="RttNode" parent="NodeWithDirectory"/>
+
+    <bean name="RttSenderAgent" parent="SimpleAgent" scope="prototype">
+        <property name="agentBeans">
+            <list>
+                <ref bean="RttSenderBean"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RttReceiverAgent" parent="SimpleAgent" scope="prototype">
+        <property name="agentBeans">
+            <list>
+                <ref bean="RttReceiverBean"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RttSenderBean" class="benchmarks.rtt.agents.RttSenderBean" scope="prototype">
+        <property name="executionInterval" value="1000"/>
+        <property name="logLevel" value="INFO"/>
+    </bean>
+
+    <bean name="RttReceiverBean" class="benchmarks.rtt.agents.RttReceiverBean" scope="prototype">
+        <property name="logLevel" value="INFO"/>
+    </bean>
+</beans>
