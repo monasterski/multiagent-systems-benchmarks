@@ -19,8 +19,10 @@ public class AgentManagerCapacity {
         profile.setParameter(Profile.MAIN_HOST, "localhost");
         profile.setParameter(Profile.GUI, "false");
         ContainerController containerController = runtime.createMainContainer(profile);
+        String nrOfAgentsString = args[0];
+        int nrOfAgents = Integer.parseInt(nrOfAgentsString);
 
-        for(int i = 1; i<=BenchmarkSettings.TOTAL_NUMBER_OF_AGENTS ; i++){
+        for(int i = 1; i<=nrOfAgents ; i++){
             try {
                 createNewAgent(i, containerController);
                 totalNumberOfAgents++;

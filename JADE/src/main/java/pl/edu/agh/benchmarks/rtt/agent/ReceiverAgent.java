@@ -30,7 +30,7 @@ public class ReceiverAgent extends Agent {
                         );
                 ACLMessage msg= blockingReceive(mt);
 
-                log.info("Agent {} received ping from {}", getAID().getName(), msg.getSender().getName());
+                //log.info("Agent {} received ping from {}", getAID().getName(), msg.getSender().getName());
 
                 ACLMessage reply = new ACLMessage( ACLMessage.INFORM );
                 reply.setContent( "Pong" );
