@@ -3,7 +3,6 @@ package throughput.agent;
 import lombok.extern.slf4j.Slf4j;
 import madkit.kernel.Agent;
 import madkit.kernel.Message;
-import madkit.message.StringMessage;
 
 import static throughput.agent.Society.*;
 
@@ -28,15 +27,8 @@ public class ReceiverAgent extends Agent {
         while (true) {
             Message m = waitNextMessage();
             if (m != null) {
-                sendReply(m, new StringMessage(getName()));
+                sendReply(m, new Message());
             }
         }
     }
-
-    @Override
-    protected void end() {
-        pause(100);
-    }
-
-
 }

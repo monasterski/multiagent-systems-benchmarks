@@ -5,10 +5,11 @@ import madkit.kernel.Agent;
 import madkit.kernel.AgentAddress;
 import madkit.kernel.Message;
 import madkit.message.StringMessage;
+import throughput.BenchmarkSettings;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Collections;
 
 import static throughput.agent.Society.*;
 
@@ -20,15 +21,12 @@ import static throughput.agent.Society.*;
 @Slf4j
 
 public class SenderAgent extends Agent {
-    double time_ns;
-    String string = null;
-    private int sizeOfInt = 4;
+    private int sentMessages = -1;
 
     @Override
     protected void activate() {
         createGroup(COMMUNITY, GROUP);
         requestRole(COMMUNITY, GROUP, ROLE_SENDER);
-        pause(100);
     }
 
     @Override
@@ -38,39 +36,37 @@ public class SenderAgent extends Agent {
         while (receiver == null) {
             // This way, I wait for another coming into play
             receiver = getAgentWithRole(COMMUNITY, GROUP, ROLE_RECEIVER);
-            pause(10);
+            pause(1);
         }
 
         long start = System.nanoTime(); // początkowy czas w nanosekundach.
 
-        string = "000000000000000000000000000000000000000000000";
-        sendMessage(receiver, new StringMessage(string));
-        Message m = waitNextMessage();
+        String message = String.join("", Collections.nCopies(BenchmarkSettings.MESSAGE_SIZE_IN_KB * 1024, "a"));
 
-        time_ns = System.nanoTime() - start; // czas wykonania programu w nanosekundach.
-
+        while (true) {
+            sendMessage(receiver, new StringMessage(message));
+            sentMessages++;
+            Message m = waitNextMessage();
+        }
     }
 
     @Override
     protected void end() {
-        double time_s = time_ns / 1000 / 1000 / 1000;
-        log.info("[TIME] " + time_s + " s");
-        int sizeOfMString = string.getBytes().length;
-        log.info("[STRING SIZE] " + sizeOfMString + " B");
-
-        double throughput = sizeOfMString / time_s;
-
-        log.info("[THROUGHPUT] " + throughput + " B/s");
-
-        pause(100);
-
-        PrintWriter writer = null;
         try {
-            writer = new PrintWriter(new FileWriter("timeThroughput.csv", true));
+            saveBenchmarkResult();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        writer.println(time_ns);
-        writer.close();
     }
+
+    private void saveBenchmarkResult() throws IOException {
+        String benchmarkResult = "MADKIT," + BenchmarkSettings.MESSAGE_SIZE_IN_KB + "," + (sentMessages * BenchmarkSettings.MESSAGE_SIZE_IN_KB) + "\n";
+
+        FileWriter fw = new FileWriter(BenchmarkSettings.BENCHMARK_OUT_FILE_NAME, true);
+        fw.append(benchmarkResult);
+
+        fw.flush();
+        fw.close();
+    }
+
 }
