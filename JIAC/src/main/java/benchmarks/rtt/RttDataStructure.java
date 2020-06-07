@@ -22,7 +22,7 @@ public class RttDataStructure {
     }
 
     public void saveRtt(double rtt) throws IOException {
-        String record = "JIAC," + BenchmarkSettings.NUMBER_OF_AGENT_PAIRS + "," + rtt + "\n";
+        String record = "JIAC;" + BenchmarkSettings.NUMBER_OF_AGENT_PAIRS + ";" + String.valueOf(rtt).replace('.', ',') + "\n";
 
         synchronized (fw) {
             fw.append(record);

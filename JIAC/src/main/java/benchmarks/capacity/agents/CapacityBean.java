@@ -9,10 +9,10 @@ public class CapacityBean extends AbstractAgentBean {
         log.info("[STARTING] AGENT_NAME=" + this.thisAgent.getAgentName() + "");
     }
 
-    @Override
-    public void execute() {
-        log.info("[HEARTBEAT] AGENT_NAME=" + this.thisAgent.getAgentName());
-    }
+//    @Override
+//    public void execute() {
+//        log.info("[HEARTBEAT] AGENT_NAME=" + this.thisAgent.getAgentName());
+//    }
 
     @Override
     public void doStop() throws Exception {

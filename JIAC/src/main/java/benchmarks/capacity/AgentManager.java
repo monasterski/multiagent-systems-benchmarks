@@ -16,18 +16,20 @@ public class AgentManager {
     public static void main(String[] args) throws Exception {
         SimpleAgentNode agentNode = (SimpleAgentNode) CTX.getBean(MASSettings.NODE_BEAN);
 
-        for (int i = 1; i <= BenchmarkSettings.TOTAL_NUMBER_OF_AGENTS; i++) {
+        int nrOfAgents = Integer.parseInt(args[0]);
+
+        for (int i = 1; i <= nrOfAgents; i++) {
             createNewAgent(agentNode, i);
         }
 
-        System.out.println("Created all agents, sleeping...");
-        Thread.sleep(BenchmarkSettings.SLEEP_LENGTH_IN_SECONDS * 1000);
-        System.out.println("Sleep over, shutting down...");
-
-        saveBenchmarkResult();
-
-        agentNode.shutdown();
-        System.out.println("Node shut down");
+//        System.out.println("Created all agents, sleeping...");
+//        Thread.sleep(BenchmarkSettings.SLEEP_LENGTH_IN_SECONDS * 1000);
+//        System.out.println("Sleep over, shutting down...");
+//
+//        saveBenchmarkResult();
+//
+//        agentNode.shutdown();
+//        System.out.println("Node shut down");
     }
 
     private static void createNewAgent(IAgentNode agentNode, int agentNo) throws LifecycleException {

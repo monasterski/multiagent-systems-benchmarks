@@ -75,7 +75,7 @@ public class ThroughputSenderBean extends AbstractAgentBean {
     }
 
     private void saveBenchmarkResult() throws IOException {
-        String benchmarkResult = "JIAC," + BenchmarkSettings.MESSAGE_SIZE_IN_KB + "," + (sentMessages * BenchmarkSettings.MESSAGE_SIZE_IN_KB) + "\n";
+        String benchmarkResult = "JIAC;" + BenchmarkSettings.MESSAGE_SIZE_IN_KB + ";" + (sentMessages * BenchmarkSettings.MESSAGE_SIZE_IN_KB) + "\n";
 
         FileWriter fw = new FileWriter(BenchmarkSettings.BENCHMARK_OUT_FILE_NAME, true);
         fw.append(benchmarkResult);
