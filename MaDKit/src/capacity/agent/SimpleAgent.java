@@ -17,14 +17,6 @@ public class SimpleAgent extends Agent {
     @Override
     protected void live() {
         while (true)
-            pause(10000);
+            pause(1000);
     }
-
-    @Override
-    protected void end() {
-        // operacje wykonywane bezpośrednio przed usunięciem agenta
-        log.info("[DELETE] agent name: {}", getName());
-    }
-
-
 }

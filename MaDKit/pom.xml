@@ -59,7 +59,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        capacity.AgentManager
+                                        capacity.AgentManagerCapacity
                                     </mainClass>
                                 </manifest>
                             </archive>
