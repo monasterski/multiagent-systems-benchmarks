@@ -39,8 +39,6 @@ public class SenderAgent extends Agent {
             pause(1);
         }
 
-        long start = System.nanoTime(); // początkowy czas w nanosekundach.
-
         String message = String.join("", Collections.nCopies(BenchmarkSettings.MESSAGE_SIZE_IN_KB * 1024, "a"));
 
         while (true) {
