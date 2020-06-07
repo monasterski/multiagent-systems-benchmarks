@@ -5,11 +5,10 @@ import madkit.kernel.Agent;
 import madkit.kernel.AgentAddress;
 import madkit.kernel.Message;
 import madkit.message.StringMessage;
+import rtt.BenchmarkSettings;
+import rtt.RttDataStructure;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static rtt.agent.Society.*;
 
@@ -23,7 +22,9 @@ import static rtt.agent.Society.*;
 public class SenderAgent extends Agent {
     public static int group = 0;
     String GROUP = null;
-    long rttTime;
+    private double rtt = 0;
+    private int numberOfTrips = 0;
+    private int t = 1;
 
     @Override
     protected void activate() {
@@ -40,33 +41,31 @@ public class SenderAgent extends Agent {
         while (receiver == null) {
             // This way, I wait for another coming into play
             receiver = getAgentWithRole(COMMUNITY, GROUP, ROLE_RECEIVER);
-            pause(10);
+            pause(1);
         }
 
-        long start = System.nanoTime(); // początkowy czas w milisekundach.
+        while (numberOfTrips++ < BenchmarkSettings.NUMBER_OF_MESSAGES) {
 
-        sendMessage(receiver, new StringMessage(getName()));
-        Message m = waitNextMessage();
+            long start = System.nanoTime(); // początkowy czas w nanosekundach.
 
-        rttTime = System.nanoTime() - start; // czas wykonania programu w milisekundach.
+            sendMessage(receiver, new StringMessage(getName()));
+            Message m = waitNextMessage();
 
+            long currRtt = System.nanoTime() - start; // czas wykonania w nanosekundach.
+            rtt += (currRtt - rtt) / t;
+            t++;
+        }
     }
 
     @Override
     protected void end() {
-
-        log.info("[TIME] " + rttTime / 1000 + "ms");
         pause(100);
-
-        PrintWriter writer = null;
+        System.out.println("END");
+        RttDataStructure ds = RttDataStructure.getInstance();
         try {
-            writer = new PrintWriter(new FileWriter("times.csv", true));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            ds.saveRtt(rtt);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        writer.println(rttTime);
-        writer.close();
     }
 }

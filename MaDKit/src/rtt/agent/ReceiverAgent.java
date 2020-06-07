@@ -3,7 +3,6 @@ package rtt.agent;
 import lombok.extern.slf4j.Slf4j;
 import madkit.kernel.Agent;
 import madkit.kernel.Message;
-import madkit.message.StringMessage;
 
 import static rtt.agent.Society.COMMUNITY;
 import static rtt.agent.Society.ROLE_RECEIVER;
@@ -28,16 +27,11 @@ public class ReceiverAgent extends Agent {
     @Override
     protected void live() {
 
-        Message m = waitNextMessage();
-        if (m != null) {
-            sendReply(m, new StringMessage(getName()));
+        while (true) {
+            Message m = waitNextMessage();
+            if (m != null) {
+                sendReply(m, new Message());
+            }
         }
     }
-
-    @Override
-    protected void end() {
-        pause(100);
-    }
-
-
 }
