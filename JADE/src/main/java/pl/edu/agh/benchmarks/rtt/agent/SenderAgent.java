@@ -37,7 +37,7 @@ public class SenderAgent extends Agent {
                 request.addReceiver(receiverAgentAID);
                 send(request);
                 long sendingPingTime = System.nanoTime();
-                log.info("Agent {} sent ping to {}", "SenderAgent"+pairNr, "ReceiverAgent"+pairNr);
+                //log.info("Agent {} sent ping to {}", "SenderAgent"+pairNr, "ReceiverAgent"+pairNr);
 
                 // RECEIVE PONG
                 MessageTemplate mt =
@@ -46,7 +46,7 @@ public class SenderAgent extends Agent {
                                 MessageTemplate.MatchSender(receiverAgentAID)
                         );
                 ACLMessage msg= blockingReceive(mt);
-                log.info("Agent {} received pong from {}", getAID().getName(), msg.getSender().getName());
+                //log.info("Agent {} received pong from {}", getAID().getName(), msg.getSender().getName());
 
                 long receivingPongTime = System.nanoTime();
                 long currRtt = receivingPongTime - sendingPingTime;
